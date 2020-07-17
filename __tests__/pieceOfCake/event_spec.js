@@ -1,67 +1,65 @@
-import EventEmitter from 'events';
+import EventEmitter from "events";
 
-describe('for event', () => {
+describe("for event", () => {
   function waitForEvents() {
-    return new Promise(resolve => setTimeout(() => resolve(), 0));
+    return new Promise((resolve) => setTimeout(() => resolve(), 0));
   }
 
-  it('should capture event', (done) => {
+  it("should capture event", (done) => {
     const element = new EventEmitter();
     const logs = [];
 
     function onClick() {
-      logs.push('I have been clicked.');
+      logs.push("I have been clicked.");
       done();
     }
 
     // <--start
     // Please add the event listener to handle `click` event on `element`.
-
+    element.on("click", onClick);
     // --end->
 
-    element.emit('click');
+    element.emit("click");
   }, 1000 /* 1 second to timeout */);
 
-  it('should invoke multiple times', (done) => {
+  it("should invoke multiple times", (done) => {
     const element = new EventEmitter();
     const logs = [];
 
-    element.addListener('click', () => logs.push('I have been clicked'));
-    element.emit('click');
-    element.emit('click');
+    element.addListener("click", () => logs.push("I have been clicked"));
+    element.emit("click");
+    element.emit("click");
 
-    waitForEvents()
-      .then(() => {
-        // <--start
-        // Please write down the correct value. You should write the final result directly.
-        const expected = undefined;
-        // --end->
+    waitForEvents().then(() => {
+      // <--start
+      // Please write down the correct value. You should write the final result directly.
+      const expected = ["I have been clicked", "I have been clicked"];
+      // --end->
 
-        expect(logs).toEqual(expected);
-        done();
-      });
+      expect(logs).toEqual(expected);
+      done();
+    });
   });
 
-  it('should remove event listener', (done) => {
+  it("should remove event listener", (done) => {
     const element = new EventEmitter();
     const logs = [];
 
-    element.addListener('click', () => {
-      logs.push('I have been clicked');
-      element.removeAllListeners('click');
+    element.addListener("click", () => {
+      logs.push("I have been clicked");
+      element.removeAllListeners("click");
     });
-    element.emit('click');
-    element.emit('click');
+    element.emit("click");
+    element.emit("click");
 
-    waitForEvents()
-      .then(() => {
-        // <--start
-        // Please write down the correct value. You should write the final result directly.
-        const expected = undefined;
-        // --end->
+    waitForEvents().then(() => {
+      // <--start
+      // Please write down the correct value. You should write the final result directly.
+      const expected = ["I have been clicked"];
+      // --end->
 
-        expect(logs).toEqual(expected);
-        done();
-      });
+      expect(logs).toEqual(expected);
+      done();
+    });
   });
 });
