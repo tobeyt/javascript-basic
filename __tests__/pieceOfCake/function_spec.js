@@ -1,7 +1,7 @@
-describe('for function', () => {
-  it('should be able to define function in function scope', () => {
+describe("for function", () => {
+  it("should be able to define function in function scope", () => {
     function outerFunction() {
-      const myName = 'World';
+      const myName = "World";
       function innerFunction() {
         return `Hello ${myName}`;
       }
@@ -11,14 +11,14 @@ describe('for function', () => {
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = "Hello World";
     // --end->
 
     expect(outerFunction()).toEqual(expected);
   });
 
-  it('should pass function as value', () => {
-    const sayHello = () => 'Hello';
+  it("should pass function as value", () => {
+    const sayHello = () => "Hello";
 
     function greeting(prefixGenerator, name) {
       return `${prefixGenerator()} ${name}`;
@@ -26,40 +26,44 @@ describe('for function', () => {
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = `Hello World`;
     // --end->
 
-    expect(greeting(sayHello, 'World')).toEqual(expected);
+    expect(greeting(sayHello, "World")).toEqual(expected);
   });
 
-  it('should allow optional arguments for any function', () => {
-    function square(x) { return x * x; }
+  it("should allow optional arguments for any function", () => {
+    function square(x) {
+      return x * x;
+    }
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = 36;
     // --end->
 
-    expect(square(6, 'Hello', 4)).toEqual(expected);
+    expect(square(6, "Hello", 4)).toEqual(expected);
   });
 
-  it('should be undefined for not specified parameter', () => {
+  it("should be undefined for not specified parameter", () => {
     function minus(left, right) {
-      if (right === undefined) { return -left; }
+      if (right === undefined) {
+        return -left;
+      }
       return left - right;
     }
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expectedForSingleArgument = undefined;
-    const expectedForTwoArguments = undefined;
+    const expectedForSingleArgument = -5;
+    const expectedForTwoArguments = 2;
     // --end->
 
     expect(minus(5)).toEqual(expectedForSingleArgument);
     expect(minus(5, 3)).toEqual(expectedForTwoArguments);
   });
 
-  it('should specify default parameters', () => {
+  it("should specify default parameters", () => {
     function power(base, exponent = 2) {
       let result = 1;
       for (let count = 0; count < exponent; count += 1) {
@@ -70,18 +74,18 @@ describe('for function', () => {
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = 16;
     // --end->
 
     expect(power(4)).toEqual(expected);
   });
 
-  it('should not modify the original variable', () => {
+  it("should not modify the original variable", () => {
     // eslint-disable-next-line prefer-const
-    let guessIfIAmChanged = 'Origin';
+    let guessIfIAmChanged = "Origin";
     function transferToAnotherWord(word) {
       // eslint-disable-next-line no-param-reassign
-      word = 'Changed';
+      word = "Changed";
       return word;
     }
 
@@ -89,15 +93,15 @@ describe('for function', () => {
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expectedReturnValue = undefined;
-    const expectedWord = undefined;
+    const expectedReturnValue = "Changed";
+    const expectedWord = "Origin";
     // --end->
 
     expect(returnValue).toEqual(expectedReturnValue);
     expect(guessIfIAmChanged).toEqual(expectedWord);
   });
 
-  it('should modify the content of the variable', () => {
+  it("should modify the content of the variable", () => {
     const person = {};
     // eslint-disable-next-line no-shadow
     function addName(person, name) {
@@ -106,21 +110,21 @@ describe('for function', () => {
       return person;
     }
 
-    const returnValue = addName(person, 'Bob');
+    const returnValue = addName(person, "Bob");
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expectedName = undefined;
-    const expectedReturnValueName = undefined;
+    const expectedName = "Bob";
+    const expectedReturnValueName = "Bob";
     // --end->
 
     expect(person.name).toEqual(expectedName);
     expect(returnValue.name).toEqual(expectedReturnValueName);
   });
 
-  it('should capture local variables', () => {
+  it("should capture local variables", () => {
     function wrapValue() {
-      const localVariable = 'Hello';
+      const localVariable = "Hello";
       return () => localVariable;
     }
 
@@ -128,51 +132,59 @@ describe('for function', () => {
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = "Hello";
     // --end->
 
     expect(actual).toEqual(expected);
   });
 
-  it('should change captured variable', () => {
-    let guessIfIAmChanged = 'Origin';
+  it("should change captured variable", () => {
+    let guessIfIAmChanged = "Origin";
 
     function wrapValue() {
-      return () => { guessIfIAmChanged = 'Changed'; };
+      return () => {
+        guessIfIAmChanged = "Changed";
+      };
     }
 
     wrapValue()();
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = "Changed";
     // --end->
 
     expect(guessIfIAmChanged).toEqual(expected);
   });
 
-  it('should create some recursion trick', () => {
+  it("should create some recursion trick", () => {
     function findSolution(target) {
       function find(current, history) {
         // eslint-disable-next-line eqeqeq
-        if (current == target) { return history; }
-        if (current > target) { return null; }
-        return find(current + 5, `(${history} + 5)`)
-          || find(current * 3, `(${history} * 3)`);
+        if (current == target) {
+          return history;
+        }
+        if (current > target) {
+          return null;
+        }
+        return (
+          find(current + 5, `(${history} + 5)`) ||
+          find(current * 3, `(${history} * 3)`)
+        );
       }
 
-      return find(1, '1');
+      return find(1, "1");
     }
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = "(((1 * 3) + 5) * 3)";
     // --end->
 
     expect(findSolution(24)).toEqual(expected);
   });
 
-  it('should accept any number of parameters', () => {
+  it("should accept any number of parameters", () => {
     function sum(...numbers) {
       let result = 0;
       for (let i = 0; i < numbers.length; i += 1) {
@@ -183,13 +195,13 @@ describe('for function', () => {
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = 6;
     // --end->
 
     expect(sum(1, 2, 3)).toEqual(expected);
   });
 
-  it('should also use 3 dot notation to call function with rest parameters', () => {
+  it("should also use 3 dot notation to call function with rest parameters", () => {
     function sum(...numbers) {
       let result = 0;
       for (let i = 0; i < numbers.length; i += 1) {
@@ -200,7 +212,7 @@ describe('for function', () => {
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = 6;
     // --end->
 
     const parameters = [1, 2, 3];
@@ -209,7 +221,7 @@ describe('for function', () => {
     expect(actual).toEqual(expected);
   });
 
-  it('should be able to passing parameters in mixed way', () => {
+  it("should be able to passing parameters in mixed way", () => {
     function sum(...numbers) {
       let result = 0;
       for (let i = 0; i < numbers.length; i += 1) {
@@ -223,43 +235,45 @@ describe('for function', () => {
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = 25;
     // --end->
 
     expect(actual).toEqual(expected);
   });
 
-  it('should pass pre-defined function as callback', () => {
+  it("should pass pre-defined function as callback", () => {
     function repeat(n, action) {
-      for (let i = 0; i < n; i += 1) { action(i); }
+      for (let i = 0; i < n; i += 1) {
+        action(i);
+      }
     }
     const labels = [];
-    repeat(3, index => labels.push(index * 3));
+    repeat(3, (index) => labels.push(index * 3));
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = [0, 3, 6];
     // --end->
 
     expect(labels).toEqual(expected);
   });
 
-  it('should create higher order function', () => {
+  it("should create higher order function", () => {
     function greaterThan(n) {
-      return value => value > n;
+      return (value) => value > n;
     }
 
     const greaterThan10 = greaterThan(10);
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = false;
     // --end->
 
     expect(greaterThan10(3)).toEqual(expected);
   });
 
-  it('should not make you crazy with high order function', () => {
+  it("should not make you crazy with high order function", () => {
     function noisy(f) {
       return (...args) => f(...args);
     }
@@ -269,16 +283,20 @@ describe('for function', () => {
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = 11;
     // --end->
 
     expect(actual).toEqual(expected);
   });
 
-  it('should not make you crazy even we change the control flow', () => {
-    function unless(test, then) { if (!test) then(); }
+  it("should not make you crazy even we change the control flow", () => {
+    function unless(test, then) {
+      if (!test) then();
+    }
     function repeat(n, action) {
-      for (let i = 0; i < n; i += 1) { action(i); }
+      for (let i = 0; i < n; i += 1) {
+        action(i);
+      }
     }
 
     const logs = [];
@@ -289,7 +307,7 @@ describe('for function', () => {
 
     // <--start
     // Please write down the correct value. You should write the final result directly.
-    const expected = undefined;
+    const expected = [0, 2, 4];
     // --end->
 
     expect(logs).toEqual(expected);
